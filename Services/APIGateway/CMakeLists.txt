@@ -18,6 +18,12 @@ target_link_libraries(
         BusinessServiceInterface
 )
 
-target_include_directories(APIService PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(APIService PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/Interfaces/BusinessServiceInterface
+    ${CMAKE_SOURCE_DIR}/Shared/Models
+)
+
+target_compile_definitions(APIService PUBLIC CPPHTTPLIB_OPENSSL_SUPPORT)
 
 target_compile_features(APIService PRIVATE cxx_std_20)

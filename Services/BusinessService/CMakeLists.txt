@@ -3,7 +3,13 @@ add_library(BusinessService STATIC
     "ProductService.h"
 )
 
-target_include_directories(BusinessService PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(BusinessService PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/Interfaces/BusinessServiceInterface
+    ${CMAKE_SOURCE_DIR}/Interfaces/DataServiceInterface
+    ${CMAKE_SOURCE_DIR}/Shared/Models
+    ${CMAKE_SOURCE_DIR}/Shared/Entities
+)
 
 find_package(nlohmann_json CONFIG REQUIRED)
 

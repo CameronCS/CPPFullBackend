@@ -2,7 +2,6 @@
 //
 
 #include "Main.h"
-#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include <httplib.h>
 #include <nlohmann/json.hpp>
 #include <nanodbc/nanodbc.h>
@@ -23,7 +22,7 @@ static void Heartbeat(const httplib::Request& req, httplib::Response& res) {
 }
 
 int main() {
-    nlohmann::json_abi_v3_12_0::json config = LoadConfig("appsettings.json");
+    nlohmann::json config = LoadConfig("appsettings.json");
 
     std::string connStr = config["database"]["connectionString"];
     std::string host = config["server"]["host"];
@@ -47,7 +46,7 @@ int main() {
 
     DataService::ProductRepository productRepo;
     BusinessService::ProductService productService(&productRepo);
-    APIGateway::ProductGateway::ProductGateway(&svr, &productService);
+    APIGateway::ProductGateway gateway(svr, &productService);
 
     svr.Get("/system/heartbeat", Heartbeat);
 

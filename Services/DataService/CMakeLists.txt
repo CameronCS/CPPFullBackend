@@ -3,7 +3,11 @@ add_library(DataService STATIC
     "ProductRepository.h"
  "DBUtils/DBUtils.h" "DBUtils/DBUtils.cpp")
 
-target_include_directories(DataService PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(DataService PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/Interfaces/DataServiceInterface
+    ${CMAKE_SOURCE_DIR}/Shared/Entities
+)
 
 find_package(nanodbc CONFIG REQUIRED)
 

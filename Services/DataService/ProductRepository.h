@@ -8,12 +8,13 @@
 #include <IProductRepository.h>
 
 namespace DataService {
-	class ProductRepository : DataService::Interface::IProductRepository {
-		virtual bool WriteProductToDB(Entities::PRDProduct);
-		virtual std::optional<Entities::PRDProduct> GetProductById(int id);
-		virtual std::vector<Entities::PRDProduct> GetAllProducts();
-		virtual bool DeleteProduct(int productId);
-		virtual bool UpdateProduct(Entities::PRDProduct product);
+	class ProductRepository : public DataService::Interface::IProductRepository {
+	public:
+		virtual bool WriteProductToDB(Entities::PRDProduct) override;
+		virtual std::optional<Entities::PRDProduct> GetProductById(int id) override;
+		virtual std::vector<Entities::PRDProduct> GetAllProducts() override;
+		virtual bool DeleteProduct(int productId) override;
+		virtual bool UpdateProduct(Entities::PRDProduct product) override;
 	};
 }
 
