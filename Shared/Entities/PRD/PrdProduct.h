@@ -1,5 +1,5 @@
-#ifndef __PRD_Product_H__
-#define __PRD_Product_H__
+#ifndef _____PRD_Product_H_____
+#define _____PRD_Product_H_____
 
 #include <string>
 

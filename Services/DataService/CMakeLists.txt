@@ -1,7 +1,10 @@
 add_library(DataService STATIC
-    "ProductRepository.cpp"
-    "ProductRepository.h"
- "DBUtils/DBUtils.h" "DBUtils/DBUtils.cpp")
+    "ProductRepository/ProductRepository.cpp"
+    "ProductRepository/ProductRepository.h"
+    "DBUtils/DBUtils.h"
+    "DBUtils/DBUtils.cpp"
+    "DataService.h"
+)
 
 target_include_directories(DataService PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

@@ -1,6 +1,7 @@
 add_library(BusinessService STATIC
-    "ProductService.cpp"
-    "ProductService.h"
+    "ProductService/ProductService.cpp"
+    "ProductService/ProductService.h"
+    "BusinessService.h"
 )
 
 target_include_directories(BusinessService PUBLIC
@@ -13,6 +14,6 @@ target_include_directories(BusinessService PUBLIC
 
 find_package(nlohmann_json CONFIG REQUIRED)
 
-target_link_libraries(BusinessService PRIVATE DataService nlohmann_json::nlohmann_json Entities Models BusinessServiceInterface DataServiceInterface)
+target_link_libraries(BusinessService PRIVATE nlohmann_json::nlohmann_json Entities Models BusinessServiceInterface DataServiceInterface)
 
 target_compile_features(BusinessService PRIVATE cxx_std_20)

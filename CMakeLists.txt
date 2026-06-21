@@ -12,6 +12,14 @@ endif()
 
 project ("Backend")
 
+if(MSVC)
+    add_compile_options(
+        /W4
+        /external:anglebrackets
+        /external:W0
+    )
+endif()
+
 # Include sub-projects.
 add_subdirectory("Shared")
 add_subdirectory("Interfaces")

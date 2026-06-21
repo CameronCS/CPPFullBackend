@@ -10,6 +10,7 @@
 namespace DataService {
 	class ProductRepository : public DataService::Interface::IProductRepository {
 	public:
+		ProductRepository(std::string connectionString) : IProductRepository(connectionString) {}
 		virtual bool WriteProductToDB(Entities::PRDProduct) override;
 		virtual std::optional<Entities::PRDProduct> GetProductById(int id) override;
 		virtual std::vector<Entities::PRDProduct> GetAllProducts() override;

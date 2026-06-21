@@ -27,6 +27,8 @@ target_link_libraries(Backend
 )
 
 configure_file(appsettings.json appsettings.json COPYONLY)
+configure_file(cert.pem cert.pem COPYONLY)
+configure_file(key.pem key.pem COPYONLY)
 
 # TODO: Add tests and install targets if needed.
 add_custom_command(TARGET Backend POST_BUILD

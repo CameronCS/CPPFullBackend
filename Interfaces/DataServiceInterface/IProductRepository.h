@@ -9,11 +9,16 @@
 namespace DataService::Interface {
 	class IProductRepository {
 	public:
+		IProductRepository(std::string connectionString) {
+			_connectionString = connectionString;
+		}
 		virtual bool WriteProductToDB(Entities::PRDProduct) = 0;
 		virtual std::optional<Entities::PRDProduct> GetProductById(int id) = 0;
 		virtual std::vector<Entities::PRDProduct> GetAllProducts() = 0;
 		virtual bool DeleteProduct(int productId) = 0;
 		virtual bool UpdateProduct(Entities::PRDProduct product) = 0;
+	protected:
+		std::string _connectionString;
 	};
 }
 

@@ -1,6 +1,6 @@
-#ifndef __ENTITIES_H__
-#define __ENTITIES_H__
+#ifndef _____ENTITIES_H_____
+#define _____ENTITIES_H_____
 
-#include "PrdProduct.h"
+#include "PRD/Prd.h"
 
 #endif

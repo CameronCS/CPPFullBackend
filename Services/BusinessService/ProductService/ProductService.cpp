@@ -1,5 +1,4 @@
 #include "ProductService.h"
-#include <ProductRepository.h>
 #include <Models.h>
 
 bool BusinessService::ProductService::ProcessProduct(Models::Product newProduct) {

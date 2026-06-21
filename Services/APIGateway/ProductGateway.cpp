@@ -116,7 +116,7 @@ void APIGateway::ProductGateway::UpdateProduct(const httplib::Request& req, http
 	}
 }
 
-void APIGateway::ProductGateway::MapMethods(httplib::Server& server) {
+void APIGateway::ProductGateway::MapMethods(httplib::SSLServer& server) {
 	server.Get("/products", [this](const httplib::Request& req, httplib::Response& res) { GetAllProducts(req, res); });
 	server.Get("/product/:id", [this](const httplib::Request& req, httplib::Response& res) { GetProductById(req, res); });
 	server.Post("/product", [this](const httplib::Request& req, httplib::Response& res) {AddProduct(req, res); });

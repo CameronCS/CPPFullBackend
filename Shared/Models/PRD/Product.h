@@ -1,6 +1,7 @@
-#ifndef __PRODUCT_H__
-#define __PRODUCT_H__
+#ifndef _____PRODUCT_H_____
+#define _____PRODUCT_H_____
 
+#include <string>
 #include <nlohmann/json.hpp>
 
 namespace Models {

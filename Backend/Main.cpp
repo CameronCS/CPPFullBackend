@@ -6,8 +6,8 @@
 #include <nlohmann/json.hpp>
 #include <nanodbc/nanodbc.h>
 #include <ProductGateway.h>
-#include <ProductService.h>
-#include <ProductRepository.h>
+#include <BusinessService.h>
+#include <DataService.h>
 
 static nlohmann::json LoadConfig(const std::string& path) {
     std::ifstream file(path);
@@ -27,6 +27,8 @@ int main() {
     std::string connStr = config["database"]["connectionString"];
     std::string host = config["server"]["host"];
     int port = config["server"]["port"];
+    std::string certPath = config["server"]["certPath"];
+    std::string keyPath = config["server"]["keyPath"];
 
     try {
         nanodbc::connection conn(connStr);
@@ -41,18 +43,18 @@ int main() {
     catch (const std::exception& e) {
         std::cerr << "DB Error: " << e.what() << std::endl;
     }
+    
+    httplib::SSLServer server(certPath.c_str(), keyPath.c_str());
 
-    httplib::Server svr;
-
-    DataService::ProductRepository productRepo;
+    DataService::ProductRepository productRepo(connStr);
     BusinessService::ProductService productService(&productRepo);
-    APIGateway::ProductGateway gateway(svr, &productService);
+    APIGateway::ProductGateway gateway(server, &productService);
 
-    svr.Get("/system/heartbeat", Heartbeat);
+    server.Get("/system/heartbeat", Heartbeat);
 
-    std::cout << "Server running on http://localhost:" << port << std::endl;
-    std::cout << "Server Heartbeat http://localhost:" << port << "/system/heartbeat" << std::endl;
-    svr.listen(host, port);
+    std::cout << "Server running on https://localhost:" << port << std::endl;
+    std::cout << "Server Heartbeat https://localhost:" << port << "/system/heartbeat" << std::endl;
+    server.listen(host, port);
 
     return 0;
 }

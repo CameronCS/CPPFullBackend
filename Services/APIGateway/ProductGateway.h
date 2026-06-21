@@ -8,14 +8,14 @@
 namespace APIGateway {
 	class ProductGateway {
 	public:
-		ProductGateway(httplib::Server& server, BusinessService::Interface::IProductService* productService) {
+		ProductGateway(httplib::SSLServer& server, BusinessService::Interface::IProductService* productService) {
 			this->_productService = productService;
 			MapMethods(server);
 		}
 
 	private:
 		BusinessService::Interface::IProductService* _productService;
-		void MapMethods(httplib::Server& server);
+		void MapMethods(httplib::SSLServer& server);
 		void AddProduct(const httplib::Request& req, httplib::Response& res);
 		void GetAllProducts(const httplib::Request& req, httplib::Response& res);
 		void GetProductById(const httplib::Request& req, httplib::Response& res);

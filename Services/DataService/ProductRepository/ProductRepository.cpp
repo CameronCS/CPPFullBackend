@@ -1,14 +1,11 @@
 #include "ProductRepository.h"
-#include "ProductRepository.h"
 #include "DBUtils/DBUtils.h"
 #include <nanodbc/nanodbc.h>
 #include <Entities.h>
 namespace db = nanodbc;
 
-static std::string connectionString = "Driver={ODBC Driver 18 for SQL Server};Server=localhost;Database=CPPBackend;Trusted_Connection=yes;TrustServerCertificate=yes;";
-
 bool DataService::ProductRepository::WriteProductToDB(Entities::PRDProduct product) {
-	db::connection conn(connectionString);
+	db::connection conn(_connectionString);
 	db::statement stmt(conn);
 	db::prepare(stmt, NANODBC_TEXT("INSERT INTO PRD_Products (Name, Price) VALUES (?, ?)"));
 	stmt.bind(0, product.Name.c_str());
@@ -21,7 +18,7 @@ bool DataService::ProductRepository::WriteProductToDB(Entities::PRDProduct produ
 }
 
 std::optional<Entities::PRDProduct> DataService::ProductRepository::GetProductById(int id) {
-	db::connection conn(connectionString);
+	db::connection conn(_connectionString);
 	db::statement stmt(conn);
 	db::prepare(stmt, NANODBC_TEXT("SELECT * FROM PRD_Products WHERE ID = ?"));
 	stmt.bind(0, &id);
@@ -36,7 +33,7 @@ std::optional<Entities::PRDProduct> DataService::ProductRepository::GetProductBy
 }
 
 std::vector<Entities::PRDProduct> DataService::ProductRepository::GetAllProducts() {
-	db::connection conn(connectionString);
+	db::connection conn(_connectionString);
 	db::statement stmt(conn);
 	db::prepare(stmt, NANODBC_TEXT("SELECT * FROM PRD_Products"));
 	db::result res = db::execute(stmt);
@@ -52,7 +49,7 @@ std::vector<Entities::PRDProduct> DataService::ProductRepository::GetAllProducts
 }
 
 bool DataService::ProductRepository::DeleteProduct(int id) {
-	db::connection conn(connectionString);
+	db::connection conn(_connectionString);
 	db::statement stmt(conn);
 	db::prepare(stmt, NANODBC_TEXT("DELETE FROM PRD_Products WHERE ID = ?"));
 	stmt.bind(0, &id);
@@ -65,7 +62,7 @@ bool DataService::ProductRepository::DeleteProduct(int id) {
 }
 
 bool DataService::ProductRepository::UpdateProduct(Entities::PRDProduct product) {
-	db::connection conn(connectionString);
+	db::connection conn(_connectionString);
 	db::statement stmt(conn);
 	db::prepare(stmt, NANODBC_TEXT("UPDATE PRD_Products SET Name = ?, Price = ? WHERE ID = ?"));
 	stmt.bind(0, product.Name.c_str());
