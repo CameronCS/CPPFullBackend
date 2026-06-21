@@ -9,14 +9,14 @@
 namespace BusinessService {
     class ProductService : public BusinessService::Interface::IProductService {
     public:
-        ProductService(DataService::Interface::IProductRepository* productRepository)
-            : IProductService(productRepository) {}
+        ProductService(DataService::Interface::IProductRepository* productRepository, SystemFramework::Logging::ILogger* logger)
+            : IProductService(productRepository, logger) {}
 
-        virtual bool ProcessProduct(Models::Product product) override;
-        virtual std::optional<Models::Product> GetProductById(int id) override;
-        virtual std::vector<Models::Product> GetAllProducts() override;
-        virtual bool DeleteProduct(int productId) override;
-        virtual bool UpdateProduct(Models::Product productToUpdate) override;
+        bool ProcessProduct(Models::Product product) override;
+        std::optional<Models::Product> GetProductById(int id) override;
+        std::vector<Models::Product> GetAllProducts() override;
+        bool DeleteProduct(int productId) override;
+        bool UpdateProduct(Models::Product productToUpdate) override;
     };
 }
 #endif

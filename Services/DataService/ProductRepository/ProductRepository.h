@@ -10,12 +10,13 @@
 namespace DataService {
 	class ProductRepository : public DataService::Interface::IProductRepository {
 	public:
-		ProductRepository(std::string connectionString) : IProductRepository(connectionString) {}
-		virtual bool WriteProductToDB(Entities::PRDProduct) override;
-		virtual std::optional<Entities::PRDProduct> GetProductById(int id) override;
-		virtual std::vector<Entities::PRDProduct> GetAllProducts() override;
-		virtual bool DeleteProduct(int productId) override;
-		virtual bool UpdateProduct(Entities::PRDProduct product) override;
+		ProductRepository(std::string connectionString, SystemFramework::Logging::ILogger* logger)
+			: IProductRepository(connectionString, logger) {}
+		bool WriteProductToDB(Entities::PRDProduct) override;
+		std::optional<Entities::PRDProduct> GetProductById(int id) override;
+		std::vector<Entities::PRDProduct> GetAllProducts() override;
+		bool DeleteProduct(int productId) override;
+		bool UpdateProduct(Entities::PRDProduct product) override;
 	};
 }
 

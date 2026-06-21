@@ -1,4 +1,4 @@
 add_library(DataServiceInterface INTERFACE)
 target_include_directories(DataServiceInterface INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(DataServiceInterface INTERFACE Entities)
+target_link_libraries(DataServiceInterface INTERFACE Entities SystemFramework)
 target_compile_features(DataServiceInterface INTERFACE cxx_std_20)

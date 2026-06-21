@@ -3,14 +3,17 @@
 
 #include <Models.h>
 #include <IProductRepository.h>
+#include <Logging/ILogger.h>
 #include <optional>
 #include <vector>
 
 namespace BusinessService::Interface {
     class IProductService {
     public:
-        IProductService(DataService::Interface::IProductRepository* productRepository) {
+        IProductService(DataService::Interface::IProductRepository* productRepository, SystemFramework::Logging::ILogger* logger) {
             _productRepository = productRepository;
+            _logger = logger;
+            _logger->SetServiceLevel("Business", "Product Service");
         }
         virtual bool ProcessProduct(Models::Product product) = 0;
         virtual std::optional<Models::Product> GetProductById(int id) = 0;
@@ -20,6 +23,7 @@ namespace BusinessService::Interface {
         virtual ~IProductService() = default;
     protected:
         DataService::Interface::IProductRepository* _productRepository;
+        SystemFramework::Logging::ILogger* _logger;
     };
 }
 

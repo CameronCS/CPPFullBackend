@@ -4,17 +4,22 @@
 #include <iostream>
 #include <httplib.h>
 #include <IProductService.h>
+#include <Logging/ILogger.h>
+#include <Gateway/GatewayBase.h>
 
 namespace APIGateway {
-	class ProductGateway {
+	class ProductGateway : public SystemFramework::Gateway::GatewayBase {
 	public:
-		ProductGateway(httplib::SSLServer& server, BusinessService::Interface::IProductService* productService) {
+		ProductGateway(httplib::SSLServer& server, BusinessService::Interface::IProductService* productService, SystemFramework::Logging::ILogger* logger) {
 			this->_productService = productService;
+			this->_logger = logger;
+			logger->SetServiceLevel("API", "Product Gateway");
 			MapMethods(server);
 		}
 
 	private:
 		BusinessService::Interface::IProductService* _productService;
+		SystemFramework::Logging::ILogger* _logger;
 		void MapMethods(httplib::SSLServer& server);
 		void AddProduct(const httplib::Request& req, httplib::Response& res);
 		void GetAllProducts(const httplib::Request& req, httplib::Response& res);

@@ -18,6 +18,7 @@ target_link_libraries(Backend
     APIService
     BusinessService
     DataService
+    SystemFramework
 
     httplib::httplib
     OpenSSL::SSL

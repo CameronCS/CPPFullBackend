@@ -1,7 +1,7 @@
 add_library(APIService STATIC
-    "ProductGateway.cpp"
-    "ProductGateway.h"
-)
+    "ProductGateway/ProductGateway.cpp"
+    "ProductGateway/ProductGateway.h"
+ "APIGateway.h")
 
 find_package(httplib CONFIG REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -16,6 +16,7 @@ target_link_libraries(
         nlohmann_json::nlohmann_json 
         Models 
         BusinessServiceInterface
+        SystemFramework
 )
 
 target_include_directories(APIService PUBLIC

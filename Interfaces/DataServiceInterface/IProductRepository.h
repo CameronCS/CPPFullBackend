@@ -5,12 +5,15 @@
 #include <vector>
 #include <optional>
 #include <Entities.h>
+#include <Logging/ILogger.h>
 
 namespace DataService::Interface {
 	class IProductRepository {
 	public:
-		IProductRepository(std::string connectionString) {
+		IProductRepository(std::string connectionString, SystemFramework::Logging::ILogger* logger) {
 			_connectionString = connectionString;
+			_logger = logger;
+			_logger->SetServiceLevel("Data", "Product Repository");
 		}
 		virtual bool WriteProductToDB(Entities::PRDProduct) = 0;
 		virtual std::optional<Entities::PRDProduct> GetProductById(int id) = 0;
@@ -19,6 +22,7 @@ namespace DataService::Interface {
 		virtual bool UpdateProduct(Entities::PRDProduct product) = 0;
 	protected:
 		std::string _connectionString;
+		SystemFramework::Logging::ILogger* _logger;
 	};
 }
 

@@ -1,4 +1,4 @@
 add_library(BusinessServiceInterface INTERFACE)
 target_include_directories(BusinessServiceInterface INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(BusinessServiceInterface INTERFACE Models DataServiceInterface)
+target_link_libraries(BusinessServiceInterface INTERFACE Models DataServiceInterface SystemFramework)
 target_compile_features(BusinessServiceInterface INTERFACE cxx_std_20)
