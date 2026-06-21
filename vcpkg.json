@@ -1,0 +1,11 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "builtin-baseline": "8cdd1410ea4e2b65c7e5176e63237240460886a6",
+  "dependencies": [
+    "cpp-httplib",
+    "openssl",
+    "nlohmann-json",
+    "nanodbc"
+  ]
+}

@@ -1,0 +1,54 @@
+# ── C / C++ ──────────────────────────────────────────────────────────────────
+*.d
+*.dwo
+*.o
+*.obj
+*.lo
+*.slo
+*.gch
+*.pch
+*.a
+*.la
+*.lai
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.ilk
+*.pdb
+
+# ── Visual Studio ─────────────────────────────────────────────────────────────
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+*.suo
+*.userosscache
+*.sln.docstates
+ipch/
+
+# ── CMake ─────────────────────────────────────────────────────────────────────
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+_deps/
+
+# Build output (CMakePresets binaryDir / installDir)
+out/
+
+# ── vcpkg ─────────────────────────────────────────────────────────────────────
+vcpkg_installed/
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+*.tmp
+*.log
+*.bak
+*.swp
+*~
+.cache/
+Testing/
