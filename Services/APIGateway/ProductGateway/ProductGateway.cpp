@@ -18,7 +18,9 @@ void APIGateway::ProductGateway::AddProduct(const httplib::Request& request, htt
 			response.status = httplib::BadRequest_400;
 			return;
 		}
-		_productService->ProcessProduct(product.value());
+		auto scope = _container->CreateScope();
+		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		service->ProcessProduct(product.value());
 		_logger->Log("POST /product - Product created successfully");
 		response.status = httplib::Created_201;
 	}
@@ -37,16 +39,17 @@ void APIGateway::ProductGateway::GetProductById(const httplib::Request& request,
 	_logger->Log("GET /product/" + idStr + " - Get product by id request received");
 	try {
 		int id = std::stoi(idStr);
-		std::optional<Models::Product> product = _productService->GetProductById(id);
+		auto scope = _container->CreateScope();
+		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		std::optional<Models::Product> product = service->GetProductById(id);
 		if (!product.has_value()) {
 			_logger->LogWarning("GET /product/" + idStr + " - Product not found");
 			response.status = httplib::NotFound_404;
 			return;
 		}
 		_logger->Log("GET /product/" + idStr + " - Product found");
-		std::string jsonResult = this->ToJson(product.value());
 		response.status = httplib::OK_200;
-		response.set_content(jsonResult, this->json_content_type);
+		response.set_content(this->ToJson(product.value()), this->json_content_type);
 	}
 	catch (const std::invalid_argument&) {
 		_logger->LogError("GET /product/" + idStr + " - Invalid id format");
@@ -65,16 +68,17 @@ void APIGateway::ProductGateway::GetProductById(const httplib::Request& request,
 void APIGateway::ProductGateway::GetAllProducts(const httplib::Request& request, httplib::Response& response) {
 	_logger->Log("GET /products - Get all products request received");
 	try {
-		std::vector<Models::Product> products = _productService->GetAllProducts();
+		auto scope = _container->CreateScope();
+		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		std::vector<Models::Product> products = service->GetAllProducts();
 		_logger->Log("GET /products - Returning " + std::to_string(products.size()) + " product(s)");
-		if (products.size() == 0) {
+		if (products.empty()) {
 			response.status = httplib::OK_200;
 			response.set_content("[]", this->json_content_type);
 			return;
 		}
-		std::string jsonRes = this->ToJson(products);
 		response.status = httplib::OK_200;
-		response.set_content(jsonRes, this->json_content_type);
+		response.set_content(this->ToJson(products), this->json_content_type);
 	}
 	catch (const std::exception& e) {
 		_logger->LogError("GET /products - Unexpected error: " + std::string(e.what()));
@@ -87,7 +91,9 @@ void APIGateway::ProductGateway::DeleteProduct(const httplib::Request& request, 
 	_logger->Log("DELETE /product/" + idStr + " - Delete product request received");
 	try {
 		int id = std::stoi(idStr);
-		bool isDeleted = _productService->DeleteProduct(id);
+		auto scope = _container->CreateScope();
+		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		bool isDeleted = service->DeleteProduct(id);
 		if (isDeleted) {
 			_logger->Log("DELETE /product/" + idStr + " - Product deleted");
 			response.status = httplib::OK_200;
@@ -122,22 +128,21 @@ void APIGateway::ProductGateway::UpdateProduct(const httplib::Request& request, 
 			return;
 		}
 		nlohmann::json postObject = nlohmann::json::parse(request.body);
-		std::optional<Models::Product> product = ToObject<Models::Product>(postObject);
-
+		std::optional<Models::Product> product = this->ToObject<Models::Product>(postObject);
 		if (!product.has_value()) {
 			_logger->LogError("PUT /product/" + idStr + " - Failed to deserialize product from body");
 			response.status = httplib::BadRequest_400;
 			return;
 		}
-
 		Models::Product updatedProduct = product.value();
 		if (id != updatedProduct.Id) {
 			_logger->LogError("PUT /product/" + idStr + " - Id mismatch: path id does not match body id");
 			response.status = httplib::NotAcceptable_406;
 			return;
 		}
-
-		bool isUpdated = _productService->UpdateProduct(updatedProduct);
+		auto scope = _container->CreateScope();
+		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		bool isUpdated = service->UpdateProduct(updatedProduct);
 		if (isUpdated) {
 			_logger->Log("PUT /product/" + idStr + " - Product updated");
 			response.status = httplib::OK_200;
@@ -167,7 +172,7 @@ void APIGateway::ProductGateway::UpdateProduct(const httplib::Request& request, 
 void APIGateway::ProductGateway::MapMethods(httplib::SSLServer& server) {
 	server.Get("/products", [this](const httplib::Request& request, httplib::Response& response) { GetAllProducts(request, response); });
 	server.Get("/product/:id", [this](const httplib::Request& request, httplib::Response& response) { GetProductById(request, response); });
-	server.Post("/product", [this](const httplib::Request& request, httplib::Response& response) {AddProduct(request, response); });
+	server.Post("/product", [this](const httplib::Request& request, httplib::Response& response) { AddProduct(request, response); });
 	server.Delete("/product/:id", [this](const httplib::Request& request, httplib::Response& response) { DeleteProduct(request, response); });
 	server.Put("/product/:id", [this](const httplib::Request& request, httplib::Response& response) { UpdateProduct(request, response); });
 }

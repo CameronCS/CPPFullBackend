@@ -5,7 +5,10 @@ add_library(SystemFramework STATIC
     "Logging/LoggerColours.h" 
     "Logging/Logger.h" 
     "Logging/Logger.cpp"
- "Gateway/GatewayBase.h")
+ "Gateway/GatewayBase.h"
+    "DependencyInjection/ScopedContainer.h"
+    "DependencyInjection/DependencyContainer.h"
+)
 
  find_package(nlohmann_json CONFIG REQUIRED)
 
