@@ -5,18 +5,22 @@
 #include <Models.h>
 #include <optional>
 #include <vector>
+#include <Mapping/Mapping.h>
+
+using Repo = DataService::Interface::IProductRepository;
+using Logger = SystemFramework::Logging::ILogger;
+using Mapper = SystemFramework::Mapping::Mapper;
 
 namespace BusinessService {
-    class ProductService : public BusinessService::Interface::IProductService {
-    public:
-        ProductService(DataService::Interface::IProductRepository* productRepository, SystemFramework::Logging::ILogger* logger)
-            : IProductService(productRepository, logger) {}
+	class ProductService : public BusinessService::Interface::IProductService {
+	public:
+		ProductService(Repo* productRepository, Logger* logger, Mapper* mapper) : IProductService(productRepository, logger, mapper) {}
 
-        bool ProcessProduct(Models::Product product) override;
-        std::optional<Models::Product> GetProductById(int id) override;
-        std::vector<Models::Product> GetAllProducts() override;
-        bool DeleteProduct(int productId) override;
-        bool UpdateProduct(Models::Product productToUpdate) override;
-    };
+		bool ProcessProduct(Models::Product product) override;
+		std::optional<Models::Product> GetProductById(int id) override;
+		std::vector<Models::Product> GetAllProducts() override;
+		bool DeleteProduct(int productId) override;
+		bool UpdateProduct(Models::Product productToUpdate) override;
+	};
 }
 #endif

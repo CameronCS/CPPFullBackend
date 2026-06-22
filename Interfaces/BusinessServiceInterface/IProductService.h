@@ -4,16 +4,20 @@
 #include <Models.h>
 #include <IProductRepository.h>
 #include <Logging/ILogger.h>
+#include <Mapping/Mapping.h>
 #include <optional>
 #include <vector>
+
+namespace SF = SystemFramework;
 
 namespace BusinessService::Interface {
     class IProductService {
     public:
-        IProductService(DataService::Interface::IProductRepository* productRepository, SystemFramework::Logging::ILogger* logger) {
+        IProductService(DataService::Interface::IProductRepository* productRepository, SF::Logging::ILogger* logger, SF::Mapping::Mapper* mapper) {
             _productRepository = productRepository;
             _logger = logger;
             _logger->SetServiceLevel("Business", "Product Service");
+            _mapper = mapper;
         }
         virtual bool ProcessProduct(Models::Product product) = 0;
         virtual std::optional<Models::Product> GetProductById(int id) = 0;
@@ -23,7 +27,8 @@ namespace BusinessService::Interface {
         virtual ~IProductService() = default;
     protected:
         DataService::Interface::IProductRepository* _productRepository;
-        SystemFramework::Logging::ILogger* _logger;
+        SF::Logging::ILogger* _logger;
+        SF::Mapping::Mapper* _mapper;
     };
 }
 

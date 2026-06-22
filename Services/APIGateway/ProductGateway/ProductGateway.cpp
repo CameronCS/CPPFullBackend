@@ -18,8 +18,8 @@ void APIGateway::ProductGateway::AddProduct(const httplib::Request& request, htt
 			response.status = httplib::BadRequest_400;
 			return;
 		}
-		auto scope = _container->CreateScope();
-		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		SystemFramework::DependencyInjection::ScopedContainer scope = _container->CreateScope();
+		BusinessService::Interface::IProductService * service = scope.Resolve<BusinessService::Interface::IProductService>();
 		service->ProcessProduct(product.value());
 		_logger->Log("POST /product - Product created successfully");
 		response.status = httplib::Created_201;
@@ -39,8 +39,8 @@ void APIGateway::ProductGateway::GetProductById(const httplib::Request& request,
 	_logger->Log("GET /product/" + idStr + " - Get product by id request received");
 	try {
 		int id = std::stoi(idStr);
-		auto scope = _container->CreateScope();
-		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		SystemFramework::DependencyInjection::ScopedContainer scope = _container->CreateScope();
+		BusinessService::Interface::IProductService* service = scope.Resolve<BusinessService::Interface::IProductService>();
 		std::optional<Models::Product> product = service->GetProductById(id);
 		if (!product.has_value()) {
 			_logger->LogWarning("GET /product/" + idStr + " - Product not found");
@@ -68,8 +68,8 @@ void APIGateway::ProductGateway::GetProductById(const httplib::Request& request,
 void APIGateway::ProductGateway::GetAllProducts(const httplib::Request& request, httplib::Response& response) {
 	_logger->Log("GET /products - Get all products request received");
 	try {
-		auto scope = _container->CreateScope();
-		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		SystemFramework::DependencyInjection::ScopedContainer scope = _container->CreateScope();
+		BusinessService::Interface::IProductService* service = scope.Resolve<BusinessService::Interface::IProductService>();
 		std::vector<Models::Product> products = service->GetAllProducts();
 		_logger->Log("GET /products - Returning " + std::to_string(products.size()) + " product(s)");
 		if (products.empty()) {
@@ -91,8 +91,8 @@ void APIGateway::ProductGateway::DeleteProduct(const httplib::Request& request, 
 	_logger->Log("DELETE /product/" + idStr + " - Delete product request received");
 	try {
 		int id = std::stoi(idStr);
-		auto scope = _container->CreateScope();
-		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		SystemFramework::DependencyInjection::ScopedContainer scope = _container->CreateScope();
+		BusinessService::Interface::IProductService* service = scope.Resolve<BusinessService::Interface::IProductService>();
 		bool isDeleted = service->DeleteProduct(id);
 		if (isDeleted) {
 			_logger->Log("DELETE /product/" + idStr + " - Product deleted");
@@ -140,8 +140,8 @@ void APIGateway::ProductGateway::UpdateProduct(const httplib::Request& request, 
 			response.status = httplib::NotAcceptable_406;
 			return;
 		}
-		auto scope = _container->CreateScope();
-		auto* service = scope.Resolve<BusinessService::Interface::IProductService>();
+		SystemFramework::DependencyInjection::ScopedContainer scope = _container->CreateScope();
+		BusinessService::Interface::IProductService* service = scope.Resolve<BusinessService::Interface::IProductService>();
 		bool isUpdated = service->UpdateProduct(updatedProduct);
 		if (isUpdated) {
 			_logger->Log("PUT /product/" + idStr + " - Product updated");

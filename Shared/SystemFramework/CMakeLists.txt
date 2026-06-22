@@ -8,7 +8,7 @@ add_library(SystemFramework STATIC
  "Gateway/GatewayBase.h"
     "DependencyInjection/ScopedContainer.h"
     "DependencyInjection/DependencyContainer.h"
-)
+ "Mapping/Mapping.h")
 
  find_package(nlohmann_json CONFIG REQUIRED)
 
