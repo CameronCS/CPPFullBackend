@@ -15,6 +15,7 @@ namespace DataService::Interface {
 			_logger = logger;
 			_logger->SetServiceLevel("Data", "Product Repository");
 		}
+		virtual ~IProductRepository() = default;
 		virtual bool WriteProductToDB(Entities::PRDProduct) = 0;
 		virtual std::optional<Entities::PRDProduct> GetProductById(int id) = 0;
 		virtual std::vector<Entities::PRDProduct> GetAllProducts() = 0;

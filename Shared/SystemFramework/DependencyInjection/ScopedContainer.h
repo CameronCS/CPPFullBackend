@@ -18,9 +18,9 @@ namespace SystemFramework::DependencyInjection {
         template<typename TInterface> TInterface* Resolve() {
             std::type_index key = std::type_index(typeid(TInterface));
 
-            std::unordered_map<std::type_index, void*>::iterator it = _instances.find(key);
+            std::unordered_map<std::type_index, std::pair<void*, std::function<void(void*)>>>::iterator it = _instances.find(key);
             if (it != _instances.end()) {
-                return static_cast<TInterface*>(it->second);
+                return static_cast<TInterface*>(it->second.first);
             }
 
             std::unordered_map<std::type_index, std::function<void*(ScopedContainer&)>>::iterator factoryIt = _factories.find(key);
@@ -29,20 +29,19 @@ namespace SystemFramework::DependencyInjection {
             }
 
             void* instance = factoryIt->second(*this);
-            _instances[key] = instance;
+            _instances[key] = { instance, [](void* p) { delete static_cast<TInterface*>(p); } };
             return static_cast<TInterface*>(instance);
         }
 
         ~ScopedContainer() {
-            for (std::pair<const std::type_index, void*>& pair : _instances) {
-                delete pair.second;
+            for (std::pair<const std::type_index, std::pair<void*, std::function<void(void*)>>>& entry : _instances) {
+                entry.second.second(entry.second.first);
             }
-            _instances.clear();
         }
 
     private:
         std::unordered_map<std::type_index, std::function<void*(ScopedContainer&)>>& _factories;
-        std::unordered_map<std::type_index, void*> _instances;
+        std::unordered_map<std::type_index, std::pair<void*, std::function<void(void*)>>> _instances;
     };
 }
 
