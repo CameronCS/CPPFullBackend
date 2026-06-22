@@ -3,9 +3,16 @@
 #include <httplib.h>
 #include <nlohmann/json.hpp>
 
+static constexpr size_t MAX_BODY_BYTES = 64 * 1024;
+
 void APIGateway::ProductGateway::AddProduct(const httplib::Request& request, httplib::Response& response) {
 	_logger->Log("POST /product - Add product request received");
 	try {
+		if (request.body.size() > MAX_BODY_BYTES) {
+			_logger->LogError("POST /product - Request body too large");
+			response.status = httplib::PayloadTooLarge_413;
+			return;
+		}
 		if (request.body.empty()) {
 			_logger->LogError("POST /product - Request body is empty");
 			response.status = httplib::BadRequest_400;
@@ -122,6 +129,11 @@ void APIGateway::ProductGateway::UpdateProduct(const httplib::Request& request, 
 	_logger->Log("PUT /product/" + idStr + " - Update product request received");
 	try {
 		int id = std::stoi(idStr);
+		if (request.body.size() > MAX_BODY_BYTES) {
+			_logger->LogError("PUT /product/" + idStr + " - Request body too large");
+			response.status = httplib::PayloadTooLarge_413;
+			return;
+		}
 		if (request.body.empty()) {
 			_logger->LogError("PUT /product/" + idStr + " - Request body is empty");
 			response.status = httplib::BadRequest_400;

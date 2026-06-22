@@ -6,8 +6,7 @@ namespace db = nanodbc;
 
 bool DataService::ProductRepository::WriteProductToDB(Entities::PRDProduct product) {
 	try {
-		db::connection conn(_connectionString);
-		db::statement stmt(conn);
+		db::statement stmt(_connection);
 		db::prepare(stmt, NANODBC_TEXT("INSERT INTO PRD_Products (Name, Price) VALUES (?, ?)"));
 		stmt.bind(0, product.Name.c_str());
 		stmt.bind(1, &product.Price);
@@ -30,8 +29,7 @@ bool DataService::ProductRepository::WriteProductToDB(Entities::PRDProduct produ
 
 std::optional<Entities::PRDProduct> DataService::ProductRepository::GetProductById(int id) {
 	try {
-		db::connection conn(_connectionString);
-		db::statement stmt(conn);
+		db::statement stmt(_connection);
 		db::prepare(stmt, NANODBC_TEXT("SELECT * FROM PRD_Products WHERE ID = ?"));
 		stmt.bind(0, &id);
 		db::result res = db::execute(stmt);
@@ -55,8 +53,7 @@ std::optional<Entities::PRDProduct> DataService::ProductRepository::GetProductBy
 
 std::vector<Entities::PRDProduct> DataService::ProductRepository::GetAllProducts() {
 	try {
-		db::connection conn(_connectionString);
-		db::statement stmt(conn);
+		db::statement stmt(_connection);
 		db::prepare(stmt, NANODBC_TEXT("SELECT * FROM PRD_Products"));
 		db::result res = db::execute(stmt);
 
@@ -81,8 +78,7 @@ std::vector<Entities::PRDProduct> DataService::ProductRepository::GetAllProducts
 
 bool DataService::ProductRepository::DeleteProduct(int id) {
 	try {
-		db::connection conn(_connectionString);
-		db::statement stmt(conn);
+		db::statement stmt(_connection);
 		db::prepare(stmt, NANODBC_TEXT("DELETE FROM PRD_Products WHERE ID = ?"));
 		stmt.bind(0, &id);
 
@@ -105,8 +101,7 @@ bool DataService::ProductRepository::DeleteProduct(int id) {
 
 bool DataService::ProductRepository::UpdateProduct(Entities::PRDProduct product) {
 	try {
-		db::connection conn(_connectionString);
-		db::statement stmt(conn);
+		db::statement stmt(_connection);
 		db::prepare(stmt, NANODBC_TEXT("UPDATE PRD_Products SET Name = ?, Price = ? WHERE ID = ?"));
 		stmt.bind(0, product.Name.c_str());
 		stmt.bind(1, &product.Price);

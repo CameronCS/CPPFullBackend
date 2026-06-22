@@ -23,11 +23,12 @@ static void Heartbeat(const httplib::Request& req, httplib::Response& res) {
 }
 
 int main() {
-	InitConsole(); // Only her for WIN32 Has Guard in header so no guard needed here
+	InitConsole(); // Only here for WIN32 Has Guard in header so no guard needed here
 	nlohmann::json config = LoadConfig("appsettings.json");
 
 	std::string connStr = config["database"]["connectionString"];
 	connectionString = connStr;
+
 	std::string host = config["server"]["host"];
 	int port = config["server"]["port"];
 	std::string certPath = config["server"]["certPath"];
