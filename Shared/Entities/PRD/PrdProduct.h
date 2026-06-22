@@ -10,13 +10,13 @@ namespace Entities {
 		std::string Name = "";
 		double Price = 0;
 
-		PRDProduct(int id, std::string name, double price) {
+		PRDProduct(int id, const std::string& name, double price) {
 			this->ID = id;
 			this->Name = name;
 			this->Price = price;
 		}
 
-		PRDProduct(std::string name, double price) {
+		PRDProduct(const std::string& name, double price) {
 			this->Name = name;
 			this->Price = price;
 		}

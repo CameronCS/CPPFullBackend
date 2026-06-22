@@ -1,13 +1,13 @@
 #include "ProductService.h"
-#include <Models.h>
+#include <cmath>
 
-bool BusinessService::ProductService::ProcessProduct(Models::Product newProduct) {
+bool BusinessService::ProductService::ProcessProduct(const Models::Product& newProduct) {
 	if (newProduct.Name.empty()) {
 		_logger->LogError("ProcessProduct - Product name cannot be empty");
 		return false;
 	}
-	if (newProduct.Price <= 0) {
-		_logger->LogError("ProcessProduct - Product price must be greater than zero");
+	if (!std::isfinite(newProduct.Price) || newProduct.Price <= 0) {
+		_logger->LogError("ProcessProduct - Product price must be a finite number greater than zero");
 		return false;
 	}
 	try {
@@ -78,7 +78,7 @@ bool BusinessService::ProductService::DeleteProduct(int productId) {
 	}
 }
 
-bool BusinessService::ProductService::UpdateProduct(Models::Product updateProduct) {
+bool BusinessService::ProductService::UpdateProduct(const Models::Product& updateProduct) {
 	if (updateProduct.Id <= 0) {
 		_logger->LogError("UpdateProduct - Id must be greater than zero, received: " + std::to_string(updateProduct.Id));
 		return false;
@@ -87,8 +87,8 @@ bool BusinessService::ProductService::UpdateProduct(Models::Product updateProduc
 		_logger->LogError("UpdateProduct - Product name cannot be empty");
 		return false;
 	}
-	if (updateProduct.Price <= 0) {
-		_logger->LogError("UpdateProduct - Product price must be greater than zero");
+	if (!std::isfinite(updateProduct.Price) || updateProduct.Price <= 0) {
+		_logger->LogError("UpdateProduct - Product price must be a finite number greater than zero");
 		return false;
 	}
 	try {

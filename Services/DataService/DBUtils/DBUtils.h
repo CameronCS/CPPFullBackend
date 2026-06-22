@@ -5,5 +5,5 @@
 #include <optional>
 
 namespace DataService::Utils {
-	std::optional<Entities::PRDProduct> CreateProductFromResult(nanodbc::result ndbcRes);
+	std::optional<Entities::PRDProduct> CreateProductFromResult(nanodbc::result& ndbcRes);
 }

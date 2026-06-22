@@ -17,7 +17,7 @@ namespace Models {
 			this->Price = 0;
 		}
 
-		Product(int id, std::string name, double price) {
+		Product(int id, const std::string& name, double price) {
 			this->Id = id;
 			this->Name = name;
 			this->Price = price;

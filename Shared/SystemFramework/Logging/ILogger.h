@@ -10,7 +10,7 @@ namespace SystemFramework::Logging {
         virtual void LogError(const std::string& message) = 0;
         virtual void LogWarning(const std::string& message) = 0;
         virtual ~ILogger() = default;
-        void SetServiceLevel(std::string level, std::string type) {
+        void SetServiceLevel(const std::string& level, const std::string& type) {
             _serviceType = level + "(" + type + ")";
         }
     protected:

@@ -16,11 +16,11 @@ namespace BusinessService {
 	public:
 		ProductService(Repo* productRepository, Logger* logger, Mapper* mapper) : IProductService(productRepository, logger, mapper) {}
 
-		bool ProcessProduct(Models::Product product) override;
+		bool ProcessProduct(const Models::Product& product) override;
 		std::optional<Models::Product> GetProductById(int id) override;
 		std::vector<Models::Product> GetAllProducts() override;
 		bool DeleteProduct(int productId) override;
-		bool UpdateProduct(Models::Product productToUpdate) override;
+		bool UpdateProduct(const Models::Product& productToUpdate) override;
 	};
 }
 #endif

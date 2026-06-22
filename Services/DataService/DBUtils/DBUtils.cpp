@@ -1,6 +1,6 @@
 #include "DBUtils.h"
 
-std::optional<Entities::PRDProduct> DataService::Utils::CreateProductFromResult(nanodbc::result ndbcRes) {
+std::optional<Entities::PRDProduct> DataService::Utils::CreateProductFromResult(nanodbc::result& ndbcRes) {
 	try {
 		Entities::PRDProduct product;
 		product.ID = ndbcRes.get<int>("ID");
@@ -8,7 +8,7 @@ std::optional<Entities::PRDProduct> DataService::Utils::CreateProductFromResult(
 		product.Price = ndbcRes.get<double>("Price");
 		return product;
 	}
-	catch (nanodbc::index_range_error) {
+	catch (const nanodbc::index_range_error&) {
 		return std::nullopt;
 	}
 }

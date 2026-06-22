@@ -1,3 +1,5 @@
+#pragma once
+
 namespace SystemFramework::Logging {
     namespace Color {
         constexpr const char* Reset = "\033[0m";

@@ -4,7 +4,7 @@
 #include <Entities.h>
 namespace db = nanodbc;
 
-bool DataService::ProductRepository::WriteProductToDB(Entities::PRDProduct product) {
+bool DataService::ProductRepository::WriteProductToDB(const Entities::PRDProduct& product) {
 	try {
 		db::statement stmt(_connection);
 		db::prepare(stmt, NANODBC_TEXT("INSERT INTO PRD_Products (Name, Price) VALUES (?, ?)"));
@@ -30,7 +30,7 @@ bool DataService::ProductRepository::WriteProductToDB(Entities::PRDProduct produ
 std::optional<Entities::PRDProduct> DataService::ProductRepository::GetProductById(int id) {
 	try {
 		db::statement stmt(_connection);
-		db::prepare(stmt, NANODBC_TEXT("SELECT * FROM PRD_Products WHERE ID = ?"));
+		db::prepare(stmt, NANODBC_TEXT("SELECT ID, Name, Price FROM PRD_Products WHERE ID = ?"));
 		stmt.bind(0, &id);
 		db::result res = db::execute(stmt);
 
@@ -54,7 +54,7 @@ std::optional<Entities::PRDProduct> DataService::ProductRepository::GetProductBy
 std::vector<Entities::PRDProduct> DataService::ProductRepository::GetAllProducts() {
 	try {
 		db::statement stmt(_connection);
-		db::prepare(stmt, NANODBC_TEXT("SELECT * FROM PRD_Products"));
+		db::prepare(stmt, NANODBC_TEXT("SELECT ID, Name, Price FROM PRD_Products"));
 		db::result res = db::execute(stmt);
 
 		std::vector<Entities::PRDProduct> resultVector;
@@ -99,7 +99,7 @@ bool DataService::ProductRepository::DeleteProduct(int id) {
 	}
 }
 
-bool DataService::ProductRepository::UpdateProduct(Entities::PRDProduct product) {
+bool DataService::ProductRepository::UpdateProduct(const Entities::PRDProduct& product) {
 	try {
 		db::statement stmt(_connection);
 		db::prepare(stmt, NANODBC_TEXT("UPDATE PRD_Products SET Name = ?, Price = ? WHERE ID = ?"));
