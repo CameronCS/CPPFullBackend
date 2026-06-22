@@ -3,7 +3,7 @@
 #
 
 # Add source to this project's executable.
-add_executable (Backend "Main.cpp" "Main.h")
+add_executable (Backend "Main.cpp" "Main.h" "DependencyInjection/DependencyInjectionConfig.h" "DependencyInjection/DependencyInjectionConfig.cpp" "Mapper/MapperConfig.h" "Mapper/MapperConfig.cpp" "Console/Console.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Backend PROPERTY CXX_STANDARD 20)

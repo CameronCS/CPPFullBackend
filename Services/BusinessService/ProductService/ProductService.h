@@ -7,12 +7,12 @@
 #include <vector>
 #include <Mapping/Mapping.h>
 
-using Repo = DataService::Interface::IProductRepository;
-using Logger = SystemFramework::Logging::ILogger;
-using Mapper = SystemFramework::Mapping::Mapper;
-
 namespace BusinessService {
 	class ProductService : public BusinessService::Interface::IProductService {
+	private:
+		using Repo = DataService::Interface::IProductRepository;
+		using Logger = SystemFramework::Logging::ILogger;
+		using Mapper = SystemFramework::Mapping::Mapper;
 	public:
 		ProductService(Repo* productRepository, Logger* logger, Mapper* mapper) : IProductService(productRepository, logger, mapper) {}
 

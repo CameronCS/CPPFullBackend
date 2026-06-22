@@ -1,19 +1,4 @@
-﻿// Main.cpp : Defines the entry point for the application.
-//
-
-#include "Main.h"
-#include <httplib.h>
-#include <nlohmann/json.hpp>
-#include <nanodbc/nanodbc.h>
-#include <APIGateway.h>
-#include <BusinessService.h>
-#include <DataService.h>
-#include <SystemFramework.h>
-#if WIN32
-#include <Windows.h>
-#endif
-
-static std::string connectionString;
+﻿#include "Main.h"
 
 static nlohmann::json LoadConfig(const std::string& path) {
 	std::ifstream file(path);
@@ -23,6 +8,7 @@ static nlohmann::json LoadConfig(const std::string& path) {
 	return nlohmann::json::parse(file);
 }
 
+static std::string connectionString;
 static void Heartbeat(const httplib::Request& req, httplib::Response& res) {
 	try {
 		nanodbc::connection conn(connectionString);
@@ -37,13 +23,7 @@ static void Heartbeat(const httplib::Request& req, httplib::Response& res) {
 }
 
 int main() {
-#if WIN32
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	DWORD dwMode = 0;
-	GetConsoleMode(hOut, &dwMode);
-	SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
-#endif
-
+	InitConsole(); // Only her for WIN32 Has Guard in header so no guard needed here
 	nlohmann::json config = LoadConfig("appsettings.json");
 
 	std::string connStr = config["database"]["connectionString"];
@@ -57,34 +37,16 @@ int main() {
 	SystemFramework::Logging::Logger businessLogger;
 	SystemFramework::Logging::Logger apiLogger;
 
-	SystemFramework::DependencyInjection::DependencyContainer container;
-
 	SystemFramework::Mapping::Mapper mapper;
+	MapperConfig::MapperConfig(&mapper);
 
-	mapper.Register<Models::Product, Entities::PRDProduct>(
-		[](const Models::Product& src) {
-			return Entities::PRDProduct(src.Id, src.Name, src.Price);
-		}
-	);
-
-	mapper.Register<Entities::PRDProduct, Models::Product>(
-		[](const Entities::PRDProduct& src) {
-			return Models::Product(src.ID, src.Name, src.Price);
-		}
-	);
-
-	container.Register<DataService::Interface::IProductRepository>(
-		[&connStr, &dataLogger](SystemFramework::DependencyInjection::ScopedContainer&) -> void* {
-			return new DataService::ProductRepository(connStr, &dataLogger);
-		}
-	);
-
-	container.Register<BusinessService::Interface::IProductService>(
-		[&businessLogger, &mapper](SystemFramework::DependencyInjection::ScopedContainer& scope) -> void* {
-			DataService::Interface::IProductRepository* repo = scope.Resolve<DataService::Interface::IProductRepository>();
-			return new BusinessService::ProductService(repo, &businessLogger, &mapper);
-		}
-	);
+	DependencyConfig::DependencyRequirements dependencyRequirements;
+	dependencyRequirements.ConnectionString = connStr;
+	dependencyRequirements.BusinessServiceLogger = &businessLogger;
+	dependencyRequirements.DataServiceLogger = &dataLogger;
+	dependencyRequirements.Mapper = &mapper;
+	SystemFramework::DependencyInjection::DependencyContainer container;
+	DependencyConfig::RegisterDependencies(dependencyRequirements, &container);
 
 	httplib::SSLServer server(certPath.c_str(), keyPath.c_str());
 
