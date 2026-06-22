@@ -1,6 +1,3 @@
-#ifndef _____ENTITIES_H_____
-#define _____ENTITIES_H_____
+#pragma once
 
 #include "PRD/Prd.h"
-
-#endif

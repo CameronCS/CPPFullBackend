@@ -1,6 +1,3 @@
-#ifndef _____API_GATEWAY_H_____
-#define _____API_GATEWAY_H_____
+#pragma once
 
 #include "ProductGateway/ProductGateway.h"
-
-#endif

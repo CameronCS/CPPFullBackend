@@ -4,7 +4,7 @@ void  DependencyConfig::RegisterDependencies(DependencyConfig::DependencyRequire
 	std::string connStr = requirements.ConnectionString;
 	Logger* dataLogger = requirements.DataServiceLogger;
 	Logger* businessLogger = requirements.BusinessServiceLogger;
-	Mapper* mapper = requirements.Mapper;
+	Mapper* mapper = requirements.MapperInstance;
 	
 	container->Register<DataService::Interface::IProductRepository>(
 		[connStr, dataLogger](SystemFramework::DependencyInjection::ScopedContainer&) -> void* {

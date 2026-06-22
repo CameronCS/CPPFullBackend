@@ -1,5 +1,4 @@
-#ifndef _____ILOGGER_H_____
-#define _____ILOGGER_H_____
+#pragma once
 
 #include <string>
 
@@ -17,5 +16,3 @@ namespace SystemFramework::Logging {
         std::string _serviceType;
     };
 }
-
-#endif

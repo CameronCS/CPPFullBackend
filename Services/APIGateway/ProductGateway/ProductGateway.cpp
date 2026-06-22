@@ -19,7 +19,7 @@ void APIGateway::ProductGateway::AddProduct(const httplib::Request& request, htt
 			return;
 		}
 		nlohmann::json json = nlohmann::json::parse(request.body);
-		std::optional<Models::Product> product = this->ToObject<Models::Product>(json);
+		std::optional<Models::Product> product = ToObject<Models::Product>(json);
 		if (!product.has_value()) {
 			_logger->LogError("POST /product - Failed to deserialize product from body");
 			response.status = httplib::BadRequest_400;
@@ -56,7 +56,7 @@ void APIGateway::ProductGateway::GetProductById(const httplib::Request& request,
 		}
 		_logger->Log("GET /product/" + idStr + " - Product found");
 		response.status = httplib::OK_200;
-		response.set_content(this->ToJson(product.value()), this->json_content_type);
+		response.set_content(ToJson(product.value()), json_content_type);
 	}
 	catch (const std::invalid_argument&) {
 		_logger->LogError("GET /product/" + idStr + " - Invalid id format");
@@ -81,11 +81,11 @@ void APIGateway::ProductGateway::GetAllProducts(const httplib::Request& request,
 		_logger->Log("GET /products - Returning " + std::to_string(products.size()) + " product(s)");
 		if (products.empty()) {
 			response.status = httplib::OK_200;
-			response.set_content("[]", this->json_content_type);
+			response.set_content("[]", json_content_type);
 			return;
 		}
 		response.status = httplib::OK_200;
-		response.set_content(this->ToJson(products), this->json_content_type);
+		response.set_content(ToJson(products), json_content_type);
 	}
 	catch (const std::exception& e) {
 		_logger->LogError("GET /products - Unexpected error: " + std::string(e.what()));
@@ -140,7 +140,7 @@ void APIGateway::ProductGateway::UpdateProduct(const httplib::Request& request, 
 			return;
 		}
 		nlohmann::json postObject = nlohmann::json::parse(request.body);
-		std::optional<Models::Product> product = this->ToObject<Models::Product>(postObject);
+		std::optional<Models::Product> product = ToObject<Models::Product>(postObject);
 		if (!product.has_value()) {
 			_logger->LogError("PUT /product/" + idStr + " - Failed to deserialize product from body");
 			response.status = httplib::BadRequest_400;

@@ -1,5 +1,4 @@
-#ifndef _____WIN_CONSOLE_H____
-#define _____WIN_CONSOLE_H____
+#pragma once
 
 #if WIN32
 
@@ -15,10 +14,8 @@ void InitWinConsole() {
 #endif
 
 
-void InitConsole() { 
+void InitConsole() {
 #if WIN32
 	InitWinConsole();
 #endif
 }
-
-#endif

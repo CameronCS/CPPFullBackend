@@ -1,5 +1,4 @@
-#ifndef _____SCOPED_CONTAINER_H_____
-#define _____SCOPED_CONTAINER_H_____
+#pragma once
 
 #include <unordered_map>
 #include <functional>
@@ -44,5 +43,3 @@ namespace SystemFramework::DependencyInjection {
         std::unordered_map<std::type_index, std::pair<void*, std::function<void(void*)>>> _instances;
     };
 }
-
-#endif

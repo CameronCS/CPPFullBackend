@@ -1,31 +1,19 @@
-#ifndef _____PRD_Product_H_____
-#define _____PRD_Product_H_____
+#pragma once
 
 #include <string>
 
 namespace Entities {
-	class PRDProduct {
-	public:
+	struct PRDProduct {
 		int ID = 0;
 		std::string Name = "";
-		double Price = 0;
+		double Price = 0.0;
 
-		PRDProduct(int id, const std::string& name, double price) {
-			this->ID = id;
-			this->Name = name;
-			this->Price = price;
-		}
+		PRDProduct(int id, const std::string& name, double price)
+			: ID(id), Name(name), Price(price) {}
 
-		PRDProduct(const std::string& name, double price) {
-			this->Name = name;
-			this->Price = price;
-		}
+		PRDProduct(const std::string& name, double price)
+			: ID(0), Name(name), Price(price) {}
 
-		PRDProduct() {
-			this->ID = 0;
-			this->Name = "";
-			this->Price = 0;
-		}
+		PRDProduct() = default;
 	};
 }
-#endif

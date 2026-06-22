@@ -1,6 +1,3 @@
-#ifndef _____PRD_H____
-#define _____PRD_H____
+#pragma once
 
 #include "PrdProduct.h"
-
-#endif

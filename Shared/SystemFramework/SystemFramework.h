@@ -1,8 +1,5 @@
-#ifndef _____SYSTEM_FRAMEWORK_H_____
-#define _____SYSTEM_FRAMEWORK_H_____
+#pragma once
 
 #include "Logging/Logging.h"
 #include "DependencyInjection/DependencyContainer.h"
 #include "Mapping/Mapping.h"
-
-#endif

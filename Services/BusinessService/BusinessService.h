@@ -1,6 +1,3 @@
-#ifndef _____BUSINESSSERVICE_H_____
-#define _____BUSINESSSERVICE_H_____
+#pragma once
 
 #include "ProductService/ProductService.h"
-
-#endif

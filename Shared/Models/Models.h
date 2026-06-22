@@ -1,6 +1,3 @@
-#ifndef _____MODELS_H_____
-#define _____MODELS_H_____
+#pragma once
 
 #include "PRD/PRD.h"
-
-#endif

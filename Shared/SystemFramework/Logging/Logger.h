@@ -1,5 +1,4 @@
-#ifndef ____LOGGER_H_____
-#define ____LOGGER_H_____
+#pragma once
 
 #include <string>
 #include <iostream>
@@ -15,5 +14,3 @@ namespace SystemFramework::Logging {
         ~Logger() = default;
     };
 }
-
-#endif

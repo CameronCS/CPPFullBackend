@@ -1,5 +1,4 @@
-#ifndef _____MAPPER_H_____
-#define _____MAPPER_H_____
+#pragma once
 
 #include <unordered_map>
 #include <functional>
@@ -40,5 +39,3 @@ namespace SystemFramework::Mapping {
 		std::unordered_map<std::pair<std::type_index, std::type_index>, std::function<void*(const void*)>, PairHash> _mappings;
 	};
 }
-
-#endif

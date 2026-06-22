@@ -1,7 +1,4 @@
-#ifndef _____LOGGING_H_____
-#define _____LOGGING_H_____
+#pragma once
 
 #include "ILogger.h"
 #include "Logger.h"
-
-#endif

@@ -1,27 +1,18 @@
-#ifndef _____PRODUCT_H_____
-#define _____PRODUCT_H_____
+#pragma once
 
 #include <string>
 #include <nlohmann/json.hpp>
 
 namespace Models {
-	class Product {
-	public:
+	struct Product {
 		int Id = 0;
 		std::string Name = "";
-		double Price = 0;
+		double Price = 0.0;
 
-		Product() {
-			this->Id = 0;
-			this->Name = "";
-			this->Price = 0;
-		}
+		Product() = default;
 
-		Product(int id, const std::string& name, double price) {
-			this->Id = id;
-			this->Name = name;
-			this->Price = price;
-		}
+		Product(int id, const std::string& name, double price)
+			: Id(id), Name(name), Price(price) {}
 	};
 
 	inline void to_json(nlohmann::json& j, const Product& p) {
@@ -36,5 +27,3 @@ namespace Models {
 		if (j.contains("price")) p.Price = j["price"].get<double>();
 	}
 }
-
-#endif

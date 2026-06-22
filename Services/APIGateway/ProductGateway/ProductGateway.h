@@ -1,5 +1,4 @@
-#ifndef _____PRODUCT_GATEWAY_H_____
-#define _____PRODUCT_GATEWAY_H_____
+#pragma once
 
 #include <iostream>
 #include <httplib.h>
@@ -29,5 +28,3 @@ namespace APIGateway {
 		void UpdateProduct(const httplib::Request& req, httplib::Response& res);
 	};
 }
-
-#endif

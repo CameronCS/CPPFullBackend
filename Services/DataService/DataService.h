@@ -1,6 +1,3 @@
-#ifndef _____DATASERVICE_H_____
-#define _____DATASERVICE_H_____
+#pragma once
 
 #include "ProductRepository/ProductRepository.h"
-
-#endif

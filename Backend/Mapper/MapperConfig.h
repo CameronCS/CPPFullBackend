@@ -1,5 +1,4 @@
-#ifndef ____MAPPER_CONFIG_____
-#define ____MAPPER_CONFIG_____
+#pragma once
 
 #include <Mapping/Mapping.h>
 #include <Entities.h>
@@ -7,4 +6,3 @@
 namespace MapperConfig {
 	void MapperConfig(SystemFramework::Mapping::Mapper* mapper);
 }
-#endif

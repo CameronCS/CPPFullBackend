@@ -12,7 +12,7 @@ bool BusinessService::ProductService::ProcessProduct(const Models::Product& newP
 	}
 	try {
 		Entities::PRDProduct dbProduct = _mapper->Map<Models::Product, Entities::PRDProduct>(newProduct);
-		bool hasWrittenProduct = this->_productRepository->WriteProductToDB(dbProduct);
+		bool hasWrittenProduct = _productRepository->WriteProductToDB(dbProduct);
 		if (!hasWrittenProduct) {
 			_logger->LogWarning("ProcessProduct - Repository returned false for product: " + newProduct.Name);
 		}
@@ -30,7 +30,7 @@ std::optional<Models::Product> BusinessService::ProductService::GetProductById(i
 		return std::nullopt;
 	}
 	try {
-		std::optional<Entities::PRDProduct> product = this->_productRepository->GetProductById(id);
+		std::optional<Entities::PRDProduct> product = _productRepository->GetProductById(id);
 		if (product.has_value()) {
 			Entities::PRDProduct raw = product.value();
 			Models::Product result = _mapper->Map<Entities::PRDProduct, Models::Product>(raw);
@@ -46,7 +46,7 @@ std::optional<Models::Product> BusinessService::ProductService::GetProductById(i
 
 std::vector<Models::Product> BusinessService::ProductService::GetAllProducts() {
 	try {
-		std::vector<Entities::PRDProduct> dbRows = this->_productRepository->GetAllProducts();
+		std::vector<Entities::PRDProduct> dbRows = _productRepository->GetAllProducts();
 		std::vector<Models::Product> products;
 		for (const Entities::PRDProduct& dbProd : dbRows) {
 			Models::Product product = _mapper->Map<Entities::PRDProduct, Models::Product>(dbProd);
@@ -66,7 +66,7 @@ bool BusinessService::ProductService::DeleteProduct(int productId) {
 		return false;
 	}
 	try {
-		bool isDeleted = this->_productRepository->DeleteProduct(productId);
+		bool isDeleted = _productRepository->DeleteProduct(productId);
 		if (!isDeleted) {
 			_logger->LogWarning("DeleteProduct - Repository returned false for id: " + std::to_string(productId));
 		}
@@ -93,7 +93,7 @@ bool BusinessService::ProductService::UpdateProduct(const Models::Product& updat
 	}
 	try {
 		Entities::PRDProduct rawProduct = _mapper->Map<Models::Product, Entities::PRDProduct>(updateProduct);
-		bool result = this->_productRepository->UpdateProduct(rawProduct);
+		bool result = _productRepository->UpdateProduct(rawProduct);
 		if (!result) {
 			_logger->LogWarning("UpdateProduct - Repository returned false for product id: " + std::to_string(updateProduct.Id));
 		}

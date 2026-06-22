@@ -1,5 +1,4 @@
-#ifndef _____DEPENDENCY_INJECTION_CONFIG_H_____
-#define _____DEPENDENCY_INJECTION_CONFIG_H_____
+#pragma once
 
 #include <DependencyInjection/DependencyContainer.h>
 #include <DependencyInjection/ScopedContainer.h>
@@ -14,11 +13,10 @@ namespace DependencyConfig {
 
 	struct DependencyRequirements {
 		std::string ConnectionString = "";
-		Logger* BusinessServiceLogger = 0;
-		Logger* DataServiceLogger = 0;
-		Mapper* Mapper = 0;
+		Logger* BusinessServiceLogger = nullptr;
+		Logger* DataServiceLogger = nullptr;
+		Mapper* MapperInstance = nullptr;
 	};
 
 	void RegisterDependencies(DependencyConfig::DependencyRequirements requirements, SystemFramework::DependencyInjection::DependencyContainer* container);
 }
-#endif
